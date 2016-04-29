@@ -28,6 +28,15 @@ describe GildedRose do
       expect{@shop.update_quality}.to change{@sulfuras.quality}.by 0
     end
 
+    it "reduces the sell in date" do
+      @shop.update_quality
+      expect(@pears.sell_in).to eq 19
+      expect(@apples.sell_in).to eq 17
+    end
+
+    it "doesn't reduces the sell in date of sulfuras" do
+      expect{@shop.update_quality}.to change{@sulfuras.quality}.by 0
+    end
   end
 
 end
