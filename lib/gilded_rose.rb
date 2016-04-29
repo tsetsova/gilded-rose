@@ -18,16 +18,12 @@ class GildedRose
 
   def update_item_status
     @items.each do |item|
-      reduce_sell_in_time(item)
+      item.reduce_sell_in_time if !legendary?(item.name)
       update_quality(item)
     end
   end
 
   private
-
-  def reduce_sell_in_time(item)
-    item.sell_in -= 1 if !legendary?(item.name)
-  end
 
   def legendary?(item_name)
     LEGENDARY.include?(item_name)
