@@ -3,6 +3,7 @@ class GildedRose
   attr_reader :items
 
   LEGENDARY = ["Sulfuras, Hand of Ragnaros"]
+  WELL_AGING = ["Aged Brie"]
 
   def initialize(items)
     @items = items
@@ -16,11 +17,19 @@ class GildedRose
     item.sell_in -= 1
   end
 
+  def legendary?(item_name)
+    LEGENDARY.include?(item_name)
+  end
+
+  def well_aging?(item_name)
+    WELL_AGING.include?(item_name)
+  end
+
   def update_quality
     @items.each do |item|
-      decrease_sell_in(item) if !LEGENDARY.include?(item.name)
+      decrease_sell_in(item) if !legendary?(item.name)
 
-      if !["Aged Brie", "Backstage passes to a TAFKAL80ETC concert"].include?(item.name) && !LEGENDARY.include?(item.name)
+      if !["Backstage passes to a TAFKAL80ETC concert"].include?(item.name) && !legendary?(item.name) && !well_aging?(item.name)
           decrease_quality(item)
       else
         if item.quality < 50
