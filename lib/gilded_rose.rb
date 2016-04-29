@@ -4,7 +4,7 @@ class GildedRose
 
   LEGENDARY = ["Sulfuras, Hand of Ragnaros"]
   AGED = ["Aged Brie"]
-  PASS = ["Backstage passes to a TAFKAL80ETC concert"]
+  TICKET = ["Backstage passes to a TAFKAL80ETC concert"]
   MAXIMUM_QUALITY = 50
 
   def initialize(items)
@@ -12,22 +12,9 @@ class GildedRose
   end
 
   def update_quality(item)
+   return update_ticket_quality(item) if ticket?(item.name)
     regular_goods?(item.name) ? decrease_quality(item) : increase_quality(item)
-
-    if pass?(item)
-      if item.sell_in < 11
-        increase_quality(item)
-      end
-
-      if item.sell_in < 6
-        increase_quality(item)
-      end
-    end
-
-    if item.sell_in < 0
-      return item.quality = 0 if pass?(item.name)
-      decrease_quality(item) if regular_goods?(item.name)
-    end
+    decrease_quality(item) if regular_goods?(item.name) && item.sell_in < 0
   end
 
   def update_item_status
@@ -36,6 +23,7 @@ class GildedRose
       update_quality(item)
     end
   end
+
 
   private
 
@@ -59,12 +47,19 @@ class GildedRose
     AGED.include?(item_name)
   end
 
-  def pass?(item_name)
-    PASS.include?(item_name)
+  def ticket?(item_name)
+    TICKET.include?(item_name)
+  end
+
+  def update_ticket_quality(item)
+    return item.quality = 0 if item.sell_in < 0
+    return 3.times{ increase_quality(item) } if item.sell_in <= 5
+    return 2.times{ increase_quality(item) } if item.sell_in <= 10
+    increase_quality(item)
   end
 
   def regular_goods?(item_name)
-    !legendary?(item_name) && !aged?(item_name) && !pass?(item_name)
+    !legendary?(item_name) && !aged?(item_name) && !ticket?(item_name)
   end
 end
 
