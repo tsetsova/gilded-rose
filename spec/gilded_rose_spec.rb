@@ -20,11 +20,11 @@ describe GildedRose do
       expect(@apples.quality).to eq 59
     end
 
-    it "doesn't decrase brie quality" do
+    it "doesn't decrease brie quality" do
       expect{@shop.update_quality}.to change{@brie.quality}.by 0
     end
 
-    it "doesn't decrase sulfuras quality" do
+    it "doesn't decrease sulfuras quality" do
       expect{@shop.update_quality}.to change{@sulfuras.quality}.by 0
     end
 

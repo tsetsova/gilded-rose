@@ -4,32 +4,17 @@ class GildedRose
 
   LEGENDARY = ["Sulfuras, Hand of Ragnaros"]
   WELL_AGING = ["Aged Brie"]
+  PASS = ["Backstage passes to a TAFKAL80ETC concert"]
 
   def initialize(items)
     @items = items
-  end
-
-  def decrease_quality(item)
-    item.quality -= 1 if item.quality > 0
-  end
-
-  def decrease_sell_in(item)
-    item.sell_in -= 1
-  end
-
-  def legendary?(item_name)
-    LEGENDARY.include?(item_name)
-  end
-
-  def well_aging?(item_name)
-    WELL_AGING.include?(item_name)
   end
 
   def update_quality
     @items.each do |item|
       decrease_sell_in(item) if !legendary?(item.name)
 
-      if !["Backstage passes to a TAFKAL80ETC concert"].include?(item.name) && !legendary?(item.name) && !well_aging?(item.name)
+      if regular_goods?(item.name)
           decrease_quality(item)
       else
         if item.quality < 50
@@ -70,6 +55,32 @@ class GildedRose
         end
       end
     end
+  end
+
+  private
+
+  def decrease_quality(item)
+    item.quality -= 1 if item.quality > 0
+  end
+
+  def decrease_sell_in(item)
+    item.sell_in -= 1
+  end
+
+  def legendary?(item_name)
+    LEGENDARY.include?(item_name)
+  end
+
+  def well_aging?(item_name)
+    WELL_AGING.include?(item_name)
+  end
+
+  def pass?(item_name)
+    PASS.include?(item_name)
+  end
+
+  def regular_goods?(item_name)
+    !legendary?(item_name) && !well_aging?(item_name) && !pass?(item_name)
   end
 end
 
