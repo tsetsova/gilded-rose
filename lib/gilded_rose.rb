@@ -6,14 +6,14 @@ class GildedRose
     @items = items
   end
 
-  def update_quality()
+  def decrease_quality(item)
+    item.quality -= 1 if item.quality > 0
+  end
+
+  def update_quality
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
+      if !["Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"].include?(item.name)
+          decrease_quality(item)
       else
         if item.quality < 50
           item.quality = item.quality + 1

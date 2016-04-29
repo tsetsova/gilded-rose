@@ -10,7 +10,8 @@ describe GildedRose do
       @pears = Item.new("Pears", 20, 50)
       @apples = Item.new("Apples", 18, 60)
       @brie = Item.new("Aged Brie", 10, 100)
-      @shop = GildedRose.new([@pears, @apples, @brie])
+      @sulfuras = Item.new("Sulfuras, Hand of Ragnaros", 10, 80)
+      @shop = GildedRose.new([@pears, @apples, @brie, @sulfuras])
     end
 
     it "decreases quality of items" do
@@ -21,6 +22,10 @@ describe GildedRose do
 
     it "doesn't decrase brie quality" do
       expect{@shop.update_quality}.to change{@brie.quality}.by 0
+    end
+
+    it "doesn't decrase sulfuras quality" do
+      expect{@shop.update_quality}.to change{@sulfuras.quality}.by 0
     end
 
   end
