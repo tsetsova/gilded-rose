@@ -35,7 +35,7 @@ describe GildedRose do
     end
 
     it "doesn't reduces the sell in date of sulfuras" do
-      expect{@shop.update_quality}.to change{@sulfuras.quality}.by 0
+      expect{@shop.update_quality}.to change{@sulfuras.sell_in}.by 0
     end
   end
 

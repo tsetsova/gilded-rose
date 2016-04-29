@@ -2,6 +2,8 @@ class GildedRose
 
   attr_reader :items
 
+  LEGENDARY = ["Sulfuras, Hand of Ragnaros"]
+
   def initialize(items)
     @items = items
   end
@@ -16,9 +18,9 @@ class GildedRose
 
   def update_quality
     @items.each do |item|
-      decrease_sell_in(item) if item.name != "Sulfuras, Hand of Ragnaros"
+      decrease_sell_in(item) if !LEGENDARY.include?(item.name)
 
-      if !["Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"].include?(item.name)
+      if !["Aged Brie", "Backstage passes to a TAFKAL80ETC concert"].include?(item.name) && !LEGENDARY.include?(item.name)
           decrease_quality(item)
       else
         if item.quality < 50
