@@ -3,76 +3,60 @@ class GildedRose
   attr_reader :items
 
   LEGENDARY = ["Sulfuras, Hand of Ragnaros"]
-  WELL_AGING = ["Aged Brie"]
+  AGED = ["Aged Brie"]
   PASS = ["Backstage passes to a TAFKAL80ETC concert"]
+  MAXIMUM_QUALITY = 50
 
   def initialize(items)
     @items = items
   end
 
-  def update_quality
+  def update_quality(item)
+    regular_goods?(item.name) ? decrease_quality(item) : increase_quality(item)
+
+    if pass?(item)
+      if item.sell_in < 11
+        increase_quality(item)
+      end
+
+      if item.sell_in < 6
+        increase_quality(item)
+      end
+    end
+
+    if item.sell_in < 0
+      return item.quality = 0 if pass?(item.name)
+      decrease_quality(item) if regular_goods?(item.name)
+    end
+  end
+
+  def update_item_status
     @items.each do |item|
-      decrease_sell_in(item) if !legendary?(item.name)
-
-      if regular_goods?(item.name)
-          decrease_quality(item)
-      else
-        if item.quality < 50
-          item.quality = item.quality + 1
-
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
-      end
-
-
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
-        end
-      end
+      reduce_sell_in_time(item)
+      update_quality(item)
     end
   end
 
   private
 
-  def decrease_quality(item)
-    item.quality -= 1 if item.quality > 0
+  def increase_quality(item)
+    item.quality += 1 if item.quality < MAXIMUM_QUALITY
   end
 
-  def decrease_sell_in(item)
-    item.sell_in -= 1
+  def decrease_quality(item)
+    item.quality -= 1 if item.quality > 0 && !legendary?(item.name)
+  end
+
+  def reduce_sell_in_time(item)
+    item.sell_in -= 1 if !legendary?(item.name)
   end
 
   def legendary?(item_name)
     LEGENDARY.include?(item_name)
   end
 
-  def well_aging?(item_name)
-    WELL_AGING.include?(item_name)
+  def aged?(item_name)
+    AGED.include?(item_name)
   end
 
   def pass?(item_name)
@@ -80,7 +64,7 @@ class GildedRose
   end
 
   def regular_goods?(item_name)
-    !legendary?(item_name) && !well_aging?(item_name) && !pass?(item_name)
+    !legendary?(item_name) && !aged?(item_name) && !pass?(item_name)
   end
 end
 
