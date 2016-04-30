@@ -11,7 +11,7 @@ class GildedRose
   end
 
   def update_quality(item)
-   return item.update_ticket_quality if ticket?(item.name)
+   return item.update_quality if ticket?(item.name)
    return item.decrease_quality if regular_goods?(item.name)
    item.increase_quality if !legendary?(item.name)
   end
