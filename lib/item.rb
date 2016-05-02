@@ -1,7 +1,8 @@
 class Item
-  attr_accessor :name, :sell_in, :quality
 
   MAXIMUM_QUALITY = 50
+
+  attr_accessor :name, :sell_in, :quality
 
   def initialize(name, sell_in, quality)
     @name = name
@@ -9,8 +10,8 @@ class Item
     @quality = quality
   end
 
-  def update_quality(item)
-    item.update_quality
+  def update_quality
+    decrease_quality
   end
 
   def to_s
@@ -21,12 +22,12 @@ class Item
     @sell_in -= 1
   end
 
-  def increase_quality
-    @quality += 1 if @quality < MAXIMUM_QUALITY
-  end
-
   def decrease_quality
     @sell_in > 0 ? @quality -= 1 : @quality -= 2
+  end
+
+  def increase_quality
+    @quality += 1 if @quality < MAXIMUM_QUALITY
   end
 end
 
@@ -46,5 +47,12 @@ private
   def increment_quality
     (11.0/@sell_in).ceil.times { increase_quality}
   end
-
 end
+
+class AgedGoodsItem < Item
+
+  def update_quality
+    increase_quality
+  end
+end
+
