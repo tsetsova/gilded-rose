@@ -1,6 +1,6 @@
 class EventEntryItem < Item
 
-  def update_quality
+  def update_item_status
     return zero_quality if @sell_in < 0
     reduce_sell_in_time
     increment_quality

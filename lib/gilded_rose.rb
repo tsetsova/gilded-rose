@@ -8,7 +8,7 @@ class GildedRose
 
   def update_item_status
     @items.each do |item|
-      item.update_quality
+      item.update_item_status
     end
   end
 end

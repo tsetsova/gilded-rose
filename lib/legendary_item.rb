@@ -7,7 +7,7 @@ class LegendaryItem
     @quality = 80
   end
 
-  def update_quality
+  def update_item_status
     @quality
   end
 end

@@ -10,7 +10,7 @@ class Item
     @quality = quality
   end
 
-  def update_quality
+  def update_item_status
     reduce_sell_in_time && decrease_quality
   end
 
