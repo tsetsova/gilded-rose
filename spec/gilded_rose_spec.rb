@@ -7,43 +7,6 @@ require 'aged_goods_item'
 
 describe GildedRose do
 
-  describe "#update_quality" do
-
-    MAXIMUM_QUALITY = 50
-
-    before(:each) do
-      @apples = Item.new("Apples", 18, 20)
-      @brie = AgedGoodsItem.new("Aged Brie", 10,  49)
-      @sulfuras = LegendaryItem.new("Sulfuras, Hand of Ragnaros")
-      @ticket = EventEntryItem.new("Backstage passes to a TAFKAL80ETC concert", 20, 10)
-      @shop = GildedRose.new([@apples, @brie, @sulfuras, @ticket])
-    end
-
-    it "decreases quality of items" do
-      @shop.update_item_status
-      expect(@apples.quality).to eq 19
-    end
-
-    it "decreases the sell in date" do
-      @shop.update_item_status
-      expect(@apples.sell_in).to eq 17
-    end
-
-    it "doesn't increase quality over #{MAXIMUM_QUALITY}" do
-      @shop.update_item_status
-      expect{@shop.update_item_status}.to change{ @brie.quality }.by 0
-    end
-
-    it "increases the quality of aged goods" do
-      expect{@shop.update_item_status}.to change{ @brie.quality }.by 1
-    end
-
-    it "doesn't decrease sulfuras quality" do
-      @shop.update_item_status
-      expect{ @shop }.to change{ @sulfuras.quality }.by 0
-    end
-end
-
   describe "tickets" do
     before(:each) do
       @ticket = EventEntryItem.new("Backstage passes to a TAFKAL80ETC concert", 12, 10)
