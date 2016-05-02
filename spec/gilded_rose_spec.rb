@@ -1,6 +1,9 @@
 require 'gilded_rose'
 require 'spec_helper'
 require 'item'
+require 'event_entry_item'
+require 'legendary_item'
+require 'aged_goods_item'
 
 describe GildedRose do
 
@@ -11,8 +14,8 @@ describe GildedRose do
     before(:each) do
       @apples = Item.new("Apples", 18, 20)
       @brie = AgedGoodsItem.new("Aged Brie", 10,  49)
-      @sulfuras = Item.new("Sulfuras, Hand of Ragnaros", 0, 80)
-      @ticket = EventRelatedItem.new("Backstage passes to a TAFKAL80ETC concert", 20, 10)
+      @sulfuras = LegendaryItem.new("Sulfuras, Hand of Ragnaros")
+      @ticket = EventEntryItem.new("Backstage passes to a TAFKAL80ETC concert", 20, 10)
       @shop = GildedRose.new([@apples, @brie, @sulfuras, @ticket])
     end
 
@@ -35,10 +38,6 @@ describe GildedRose do
       expect{@shop.update_item_status}.to change{ @brie.quality }.by 1
     end
 
-    it "doesn't reduces the sell in date of sulfuras" do
-      expect{@shop.update_item_status}.to change{ @sulfuras.sell_in }.by 0
-    end
-
     it "doesn't decrease sulfuras quality" do
       @shop.update_item_status
       expect{ @shop }.to change{ @sulfuras.quality }.by 0
@@ -47,7 +46,7 @@ end
 
   describe "tickets" do
     before(:each) do
-      @ticket = EventRelatedItem.new("Backstage passes to a TAFKAL80ETC concert", 12, 10)
+      @ticket = EventEntryItem.new("Backstage passes to a TAFKAL80ETC concert", 12, 10)
       @shop = GildedRose.new([@ticket])
     end
 
@@ -69,7 +68,7 @@ end
   describe "passed sell-in date" do
 
     before(:each) do
-      @ticket = EventRelatedItem.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)
+      @ticket = EventEntryItem.new("Backstage passes to a TAFKAL80ETC concert", 0, 10)
       @pears = Item.new("Pears", 0, 30)
 
       @shop = GildedRose.new([@ticket, @pears])
