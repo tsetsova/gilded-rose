@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'event_entry_item'
 
 describe EventEntryItem do
-  subject(:pass) { described_class.new("Backstage passes to a TAFKAL80ETC concert", 12, 10)}
+  subject(:pass) { described_class.new("Backstage passes to a TAFKAL80ETC concert", 12, 10) }
 
     it "increases the value of a pass by 1" do
       expect{pass.update_item_status}.to change{ pass.quality }.by 1

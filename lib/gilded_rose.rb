@@ -7,9 +7,7 @@ class GildedRose
   end
 
   def update_item_status
-    @items.each do |item|
-      item.update_item_status
-    end
+    @items.map(&:update_item_status)
   end
 end
 
