@@ -12,7 +12,7 @@ describe AgedGoodsItem do
       @max_quality = AgedGoodsItem::MAXIMUM_QUALITY
       5.times{brie.update_item_status}
       expect(brie.quality).to eq @max_quality
-    end
+  end
 
   it "reduces the sell in time" do
     expect{brie.update_item_status}.to change{brie.sell_in}.by -1

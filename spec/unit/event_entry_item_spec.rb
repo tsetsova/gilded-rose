@@ -18,6 +18,13 @@ describe EventEntryItem do
       expect{ pass.update_item_status }.to change{ pass.quality }.by 3
     end
 
+    it "doesn't increase quality over #{@max_quality}" do
+      @max_quality = EventEntryItem::MAXIMUM_QUALITY
+      ticket = described_class.new("Pass", 10, 49)
+      5.times{ticket.update_item_status}
+      expect(ticket.quality).to eq @max_quality
+    end
+
     it "changes the pass quality to 0 immedietly after the event is over" do
       12.times{ pass.update_item_status }
       expect(pass.quality).to eq 0
